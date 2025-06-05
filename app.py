@@ -58,8 +58,13 @@ def search():
             else:
                 try:
                     url = f"https://www.avkparts.lt/search/{reference}"
-                    response = requests.get(url)
-                    soup = BeautifulSoup(response.text, 'html.parser')
+                    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+                    try:
+                        response = requests.get(url, headers=headers, timeout=10)
+                        response.raise_for_status()
+                    except requests.exceptions.RequestException as e:
+                        print(f"Erreur lors de la requête AVK : {e}")
+                        message = "Erreur réseau ou accès AVK refusé"
                     texts = [el.get_text(strip=True) for el in soup.find_all(text=True)]
                     print(f"Nombre total de textes extraits: {len(texts)}")
                     for i, t in enumerate(texts):
@@ -77,7 +82,7 @@ def search():
                         designation = reference
                         price = round(prix_ht * 1.5, 2)
                     else:
-                        message = "Aucun prix HT trouvé sur AVK"
+                        message = "Référence inconnue"
                         print(message)
 
                 except Exception as e:
