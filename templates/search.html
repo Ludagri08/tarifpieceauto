@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche Prix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/static/logo_ludagri.png') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .search-form {
+            margin-bottom: 2rem;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result-container {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .result-title {
+            font-weight: bold;
+            color: #333;
+        }
+        .price {
+            font-size: 1.5rem;
+            color: #2e7d32;
+            margin: 0.5rem 0;
+        }
+        .message {
+            color: #d9534f;
+            padding: 0.5rem;
+        }
+        .logout-btn {
+            float: right;
+            background-color: #f44336;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/logout" class="logout-btn">Déconnexion</a>
+        <h1>Recherche de prix</h1>
+
+        <form method="POST" class="search-form">
+    <input 
+        type="text" 
+        name="reference" 
+        placeholder="Votre référence" 
+        value="{{ reference if reference else '' }}" 
+        required
+    >
+    <button type="submit">Rechercher</button>
+</form>
+
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+
+        {% if designation and price is not none %}
+            <div class="result-container">
+                <div class="result-title">{{ designation }}</div>
+                <div class="price">{{ "%.2f"|format(price) }} € HT</div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

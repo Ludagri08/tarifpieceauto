@@ -1,0 +1,9 @@
+services
+  - type web
+    name tarifpieceauto
+    env python
+    buildCommand 
+    startCommand gunicorn appapp
+    envVars
+      - key PYTHON_VERSION
+        value 3.9
